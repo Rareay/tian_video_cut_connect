@@ -1,0 +1,1 @@
+/home/tianru/QtProjects/SlidingMicroBar/slidingmicrobar.h

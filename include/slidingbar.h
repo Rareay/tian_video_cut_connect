@@ -1,0 +1,1 @@
+/home/tianru/QtProjects/SlidingBar/slidingbar.h

@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1166</width>
+    <height>628</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(46, 52, 54);</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1">
+        <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="4" column="0">
+           <widget class="QTextBrowser" name="textBrowser">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(238, 238, 236);</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="SlidingBar" name="slidingBar">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>27</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="ProgressBar" name="progressBar">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>27</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="SlidingMicroBar" name="slidingMicroBar">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>27</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="frame">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(17, 17, 17);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::AutoText</enum>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QPushButton" name="pushButton_add">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(238, 238, 236);</string>
+            </property>
+            <property name="text">
+             <string>Add</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QPushButton" name="pushButton_play">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(238, 238, 236);</string>
+            </property>
+            <property name="text">
+             <string>Play</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <layout class="QGridLayout" name="gridLayout"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_choose">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(238, 238, 236);</string>
+            </property>
+            <property name="text">
+             <string>Choose Video</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_cut">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Cut</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>20</y>
+          <width>1051</width>
+          <height>301</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Tab 1</string>
+         </attribute>
+         <widget class="QLabel" name="label_2">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>60</y>
+            <width>67</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>视频路径：</string>
+          </property>
+         </widget>
+         <widget class="QTextBrowser" name="textBrowser_2">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>100</y>
+            <width>101</width>
+            <height>31</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="geometry">
+           <rect>
+            <x>400</x>
+            <y>50</y>
+            <width>89</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>选择</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_3">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>100</y>
+            <width>67</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>生成尺寸：</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>150</y>
+            <width>67</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>生成帧率：</string>
+          </property>
+         </widget>
+         <widget class="QTextEdit" name="textEdit">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>59</y>
+            <width>181</width>
+            <height>31</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QTextEdit" name="textEdit_2">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>100</y>
+            <width>41</width>
+            <height>31</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QTextBrowser" name="textBrowser_3">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>150</y>
+            <width>101</width>
+            <height>31</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QTextEdit" name="textEdit_3">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>150</y>
+            <width>41</width>
+            <height>31</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="geometry">
+           <rect>
+            <x>340</x>
+            <y>210</y>
+            <width>89</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>添加</string>
+          </property>
+         </widget>
+         <widget class="VideoList" name="videoList_2">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>320</y>
+            <width>520</width>
+            <height>45</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="tab_2">
+         <attribute name="title">
+          <string>Tab 2</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="verticalLayoutWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>380</y>
+          <width>991</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3"/>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1166</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menua">
+    <property name="title">
+     <string>Model</string>
+    </property>
+    <addaction name="actionCut"/>
+    <addaction name="actionConnect"/>
+   </widget>
+   <addaction name="menua"/>
+  </widget>
+  <action name="action1">
+   <property name="text">
+    <string>1</string>
+   </property>
+  </action>
+  <action name="action2">
+   <property name="text">
+    <string>2</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionConnect">
+   <property name="text">
+    <string>Connect</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ProgressBar</class>
+   <extends>QWidget</extends>
+   <header>progressbar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SlidingBar</class>
+   <extends>QWidget</extends>
+   <header>slidingbar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SlidingMicroBar</class>
+   <extends>QWidget</extends>
+   <header>slidingmicrobar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VideoList</class>
+   <extends>QWidget</extends>
+   <header>videolist.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
