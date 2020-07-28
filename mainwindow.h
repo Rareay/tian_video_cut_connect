@@ -24,6 +24,13 @@
 #define START 0
 #define END   1
 
+
+struct FrameSize
+{
+    int h;
+    int w;
+};
+
 namespace Ui {
 class MainWindow;
 }
@@ -50,17 +57,30 @@ public:
     int m_save_index;
     int m_start_or_end;
     std::string m_save_path;
+    std::string m_video_path;
+    FrameSize m_video_size_ori;
+    int m_video_fps_ori;
+    std::string m_picture_path;
+    FrameSize m_picture_size_ori;
+    int m_connect_index;
+    int m_picture_time;
 
+    cv::VideoCapture * m_read_connect_video;
+    cv::VideoWriter * m_write_connect_video;
 
     QTimer * m_timer;
     cv::Mat m_frame;
     QLabel * m_label_frame;
     VideoList * m_fist_videolist;
+    VideoList * m_fist_connect_videolist;
 
     void Initialize();
     void show_frame(cv::Mat &img);
     int do_cut(cv::VideoCapture *video, std::string parent_path,
                        std::string filename, int frame_start, int frame_end);
+    void write_video_to_video(cv::VideoCapture * capture, cv::VideoWriter * writer, int w, int h, float rate);
+    void write_picture_to_video(cv::Mat img, cv::VideoWriter * writer,
+                                int w, int h, int fps, int t);
 
     virtual void resizeEvent(QResizeEvent *event) override;
 
@@ -86,6 +106,16 @@ private slots:
     void on_pushButton_add_clicked();
 
     void on_pushButton_cut_clicked();
+
+    void on_pushButton_path1_clicked();
+
+    void on_pushButton_add_2_clicked();
+
+    void on_pushButton_add_1_clicked();
+
+    void on_pushButton_path_2_clicked();
+
+    void on_pushButton_crate_clicked();
 
 private:
     Ui::MainWindow *ui;

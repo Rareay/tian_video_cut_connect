@@ -30,6 +30,9 @@ void MainWindow::Initialize()
     m_start_frame = 0;
     m_end_frame = 0;
     m_save_index = 0;
+    m_connect_index = 0;
+
+    ui->tab_1->setWindowTitle("1");
 
     connect(ui->slidingBar, SIGNAL(start_changed(float)), ui->progressBar, SLOT(set_location(float)));
     connect(ui->slidingBar, SIGNAL(end_changed(float)), ui->progressBar, SLOT(set_location(float)));
@@ -51,7 +54,8 @@ void MainWindow::Initialize()
 
     QFrame * line = new QFrame();
     line->setHidden(true);
-    ui->gridLayout->addWidget(line, 0, 0, 11, 1);
+    ui->gridLayout->addWidget(line, 0, 0, 15, 1);
+
 
     m_fist_videolist = new VideoList();
     m_fist_videolist->m_checkbox->setText(QString(" "));
@@ -59,7 +63,15 @@ void MainWindow::Initialize()
     m_fist_videolist->setMaximumHeight(45);
     ui->gridLayout->addWidget(m_fist_videolist, 0, 0, 1, 1);
 
+    QFrame * line2 = new QFrame();
+    line2->setHidden(true);
+    ui->gridLayout_3->addWidget(line2, 0, 0, 15, 1);
 
+    m_fist_connect_videolist = new VideoList();
+    m_fist_connect_videolist ->m_checkbox->setText(QString(" "));
+    m_fist_connect_videolist ->m_textbrowser->setText(QString(" "));
+    m_fist_connect_videolist ->setMaximumHeight(45);
+    ui->gridLayout_3->addWidget(m_fist_connect_videolist, 0, 0, 1, 1);
 }
 
 void MainWindow::show_frame(cv::Mat &img)
@@ -137,6 +149,32 @@ int MainWindow::do_cut(cv::VideoCapture *video, std::string parent_path,
     }
 
     return 0;
+}
+
+void MainWindow::write_video_to_video(cv::VideoCapture *capture, cv::VideoWriter *writer,
+                                      int w, int h, float rate)
+{
+    cv::Mat frame;
+    while (1) {
+        *capture >> frame;
+        if (frame.empty()) break;
+        cv::resize(frame, frame, cv::Size(w, h));
+        writer->write(frame); // 写视频
+    }
+
+}
+
+void MainWindow::write_picture_to_video(cv::Mat img, cv::VideoWriter *writer,
+                                        int w, int h, int fps, int t)
+{
+    if (img.empty()) return;
+
+    cv::Mat image;
+    cv::resize(img, image, cv::Size(w, h));
+    for (int i = 0; i < fps * t; i++) {
+        cv::Mat frame = image.clone();
+        writer->write(frame);
+    }
 }
 
 
@@ -305,6 +343,8 @@ void MainWindow::on_pushButton_play_clicked()
 
 void MainWindow::on_pushButton_add_clicked()
 {
+    if (m_save_index >= 15) return;
+
     if (m_start_frame < 0 || m_end_frame < 0) return;
     if (m_end_frame <= m_start_frame) return;
 
@@ -369,4 +409,177 @@ void MainWindow::on_pushButton_cut_clicked()
     // 允许播放
     m_video->set(CV_CAP_PROP_POS_FRAMES, m_current_frame);
     ui->pushButton_play->setDisabled(false);
+}
+
+void MainWindow::on_pushButton_path1_clicked()
+{
+    QString DataPath;
+    DataPath = QFileDialog::getOpenFileName(this, "选择视频", "/home/tianru");
+    std::string path = DataPath.toStdString();
+    if (path == "")
+        return;
+    m_video_path = path;
+    ui->textEdit_path1->setText(QString::fromLocal8Bit(path.c_str()));
+    cv::VideoCapture * video = new cv::VideoCapture();
+    video->open(path);
+    if(video->isOpened()) {
+        m_video_size_ori.w = video->get(CV_CAP_PROP_FRAME_WIDTH);  //帧宽度
+        m_video_size_ori.h = video->get(CV_CAP_PROP_FRAME_HEIGHT); //帧高度
+        m_video_fps_ori =  video->get(CV_CAP_PROP_FPS);  //每秒的帧数
+        ui->textBrowser_size->setText(QString("%1x%2 (ori)").arg(QString::number(m_video_size_ori.w)).arg(QString::number(m_video_size_ori.h)));
+        ui->textBrowser_fps->setText(QString("%1fps (ori)").arg(QString::number(m_video_fps_ori)));
+    }
+    video->release();
+}
+
+void MainWindow::on_pushButton_add_1_clicked()
+{
+    if (m_connect_index >= 15) return;
+
+    if (m_video_path == "") return;
+
+    if (m_connect_index == 0) {
+        m_fist_connect_videolist->m_checkbox->setText(QString::number(m_connect_index));
+        m_fist_connect_videolist->m_lineedit->setText(QString::fromLocal8Bit(m_video_path.c_str()));
+        m_fist_connect_videolist->m_textbrowser->setText(QString("video , %1x%2 , %3fps").
+                                                         arg(QString::number(m_video_size_ori.w)).
+                                                         arg(QString::number(m_video_size_ori.h)).
+                                                         arg(QString::number(m_video_fps_ori))
+                                                         );
+        //m_fist_connect_videolist->setDisabled(true);
+        m_fist_connect_videolist->m_lineedit->setDisabled(true);
+    } else {
+        VideoList * videolist = new VideoList();
+        videolist->m_checkbox->setText(QString::number(m_connect_index));
+        videolist->m_lineedit->setText(QString::fromLocal8Bit(m_video_path.c_str()));
+        videolist->m_textbrowser->setText(QString("video , %1x%2 , %3fps").
+                                                   arg(QString::number(m_video_size_ori.w)).
+                                                   arg(QString::number(m_video_size_ori.h)).
+                                                   arg(QString::number(m_video_fps_ori))
+                                                   );
+        //videolist->setDisabled(true);
+        videolist->m_lineedit->setDisabled(true);
+        videolist->setMaximumHeight(45);
+        ui->gridLayout_3->addWidget(videolist, m_connect_index, 0, 1, 1);
+    }
+    m_connect_index ++;
+
+}
+
+
+void MainWindow::on_pushButton_path_2_clicked()
+{
+    QString DataPath;
+    DataPath = QFileDialog::getOpenFileName(this, "选择图片", "/home/tianru");
+    std::string path = DataPath.toStdString();
+    if (path == "")
+        return;
+    m_picture_path = path;
+    ui->textEdit_path2->setText(QString::fromLocal8Bit(path.c_str()));
+
+    cv::Mat img = cv::imread(path, 1);
+    m_picture_size_ori.w = img.cols;
+    m_picture_size_ori.h = img.rows;
+}
+
+void MainWindow::on_pushButton_add_2_clicked()
+{
+    if (m_connect_index >= 15) return;
+
+    if (m_picture_path == "") return;
+
+
+    QString time = ui->textEdit_time->document()->toPlainText();
+    if (time == "") return;
+    m_picture_time = atoi(time.toStdString().c_str());
+
+    if (m_connect_index == 0) {
+        m_fist_connect_videolist->m_checkbox->setText(QString::number(m_connect_index));
+        m_fist_connect_videolist->m_lineedit->setText(QString::fromLocal8Bit(m_picture_path.c_str()));
+        m_fist_connect_videolist->m_textbrowser->setText(QString("picture , %1x%2 , %3s").
+                                                         arg(QString::number(m_picture_size_ori.w)).
+                                                         arg(QString::number(m_picture_size_ori.h)).
+                                                         arg(QString::number(m_picture_time))
+                                                         );
+        //m_fist_connect_videolist->setDisabled(true);
+        m_fist_connect_videolist->m_lineedit->setDisabled(true);
+    } else {
+        VideoList * videolist = new VideoList();
+        videolist->m_checkbox->setText(QString::number(m_connect_index));
+        videolist->m_lineedit->setText(QString::fromLocal8Bit(m_picture_path.c_str()));
+        videolist->m_textbrowser->setText(QString("picture , %1x%2 , %3s").
+                                                         arg(QString::number(m_picture_size_ori.w)).
+                                                         arg(QString::number(m_picture_size_ori.h)).
+                                                         arg(QString::number(m_picture_time))
+                                                         );
+        //videolist->setDisabled(true);
+        videolist->m_lineedit->setDisabled(true);
+        videolist->setMaximumHeight(45);
+        ui->gridLayout_3->addWidget(videolist, m_connect_index, 0, 1, 1);
+    }
+    m_connect_index ++;
+
+}
+
+void MainWindow::on_pushButton_crate_clicked()
+{
+    QLayoutItem * item;
+
+    if (m_save_path == "") {
+        QString Path;
+        Path = QFileDialog::getExistingDirectory(this, "Path:", "/home/tianru");
+        m_save_path = Path.toStdString();
+        if (m_save_path == "") {
+            m_video->set(CV_CAP_PROP_POS_FRAMES, m_current_frame);
+            ui->pushButton_play->setCheckable(true);
+            return;
+        }
+    }
+
+    QString size = ui->textEdit_crate_size->document()->toPlainText();
+    if (size == "") return;
+    QStringList l = size.split("x");
+    if (l.length() < 2) return;
+    int width = atoi(l[0].toStdString().c_str());
+    int height = atoi(l[1].toStdString().c_str());
+
+    QString fps = ui->textEdit_crate_fps->document()->toPlainText();
+    if (fps == "") return;
+    int frameRate = atoi(fps.toStdString().c_str());
+
+    std::string connect_video_path = m_save_path + "/new.mp4";
+    m_write_connect_video = new cv::VideoWriter(connect_video_path,
+                                                CV_FOURCC('D', 'I', 'V', 'X'),
+                                                frameRate,
+                                                cv::Size(width, height), true);
+
+    for (int cc = ui->gridLayout_3->count()-1; cc >= 0; --cc)
+    {
+        QLayoutItem *it = ui->gridLayout_3->itemAt(cc);
+        VideoList *l = qobject_cast<VideoList *>(it->widget());
+        if (l != 0)
+        {
+            std::string filename = l->m_lineedit->text().toStdString();
+            if (l->m_checkbox->isChecked() && filename != "") {
+                // 打开视频文件
+
+                QString info = l->m_textbrowser->document()->toPlainText();
+                QStringList list = info.split(" , ");
+                QString type = list[0];
+                if (type == QString("video")) {
+                    m_read_connect_video = new cv::VideoCapture(filename);
+                    write_video_to_video(m_read_connect_video, m_write_connect_video,
+                                         width, height, 0.);
+                    m_read_connect_video->release();
+                } else if (type == QString("picture")) {
+                    QStringList time = list[2].split("s");
+                    int t = atoi(time[0].toStdString().c_str());
+                    cv::Mat frame = cv::imread(filename, 1);
+                    write_picture_to_video(frame, m_write_connect_video, width, height, frameRate, t);
+                }
+
+            }
+        }
+    }
+    m_write_connect_video->release();
 }
